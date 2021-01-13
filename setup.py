@@ -256,8 +256,9 @@ except InspectCudaException as e:
     device_info, nvcc_settings = {}, {'cuda_available': False}
     tensorflow_package = 'tensorflow==2.3.0'
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+#with open("README.md", "r") as fh:
+#    long_description = fh.read()
+long_description = "InvoiceNet"
 
 setuptools.setup(name='InvoiceNet',
                  version='0.1',
@@ -272,7 +273,7 @@ setuptools.setup(name='InvoiceNet',
                  install_requires=[
                      tensorflow_package,
                      "datefinder==0.7.1",
-                     "opencv-python==4.3.0.36",
+                     "opencv-python==4.3.0.38",
                      "pdf2image==1.13.1",
                      "pdfplumber==0.5.22",
                      "PyPDF2==1.26.0",
