@@ -1,0 +1,27 @@
+{
+    "pipeline": {
+        "name": "train_total_amount"
+    },
+    "description": "A pipeline to train InvoiceNet for field total_amount.",
+    "transform": {
+        "cmd": [
+            "python3", 
+            "/InvoiceNet/train.py", 
+            "--data_dir",
+            "/pfs/preprocessing",
+            "--batch_size",
+            "1",
+            "--field",
+            "total_amount",
+            "steps",
+            "50"
+        ],
+        "image": "invoicenet:1.0.0"
+    },
+    "input": {
+        "pfs": {
+            "repo": "preprocessing",
+            "glob": "/*"
+        }
+    }
+}
