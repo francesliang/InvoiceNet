@@ -32,11 +32,16 @@ from ..parsing.parsers import DateParser, AmountParser, NoOpParser, OptionalPars
 
 class AttendCopyParse(Model):
 
-    def __init__(self, field, restore=False):
+    def __init__(self, field, restore=False, model_dir=''):
         self.field = field
 
-        self.restore_all_path = './models/invoicenet/{}/best'.format(self.field) if restore else None
-        os.makedirs("./models/invoicenet", exist_ok=True)
+        if model_dir == '':
+            self.model_dir = './models'
+        else:
+            self.model_dir = model_dir
+        self.restore_all_path = os.path.join(self.mode_dir, 'invoicenet/{}/best'.format(self.field) if restore else None
+        os.makedirs(os.path.join(self.model_dir, "invoicenet"), exist_ok=True)
+
 
         if FIELDS[field] == FIELD_TYPES["optional"]:
             noop_parser = NoOpParser()
@@ -66,7 +71,8 @@ class AttendCopyParse(Model):
         self.checkpoint = tf.train.Checkpoint(optimizer=self.optimizer, model=self.model)
 
         if self.restore_all_path:
-            if not os.path.exists('./models/invoicenet/{}'.format(self.field)):
+            field_model_path = os.path.join(self.model_dir, 'invoicenet/{}'.format(self.field))
+            if not os.path.exists(field_model_path):
                 raise Exception("No trained model available for the field '{}'".format(self.field))
             print("Restoring all " + self.restore_all_path + "...")
             self.checkpoint.read(self.restore_all_path).expect_partial()
@@ -122,7 +128,7 @@ class AttendCopyParse(Model):
         return predictions
 
     def save(self, name):
-        self.checkpoint.write(file_prefix="./models/invoicenet/%s/%s" % (self.field, name))
+        file_prefix = os.path.join(self.model_dir, "invoicenet/%s/%s" % (self.field, name))
 
     def load(self, name):
         self.checkpoint.read(name)

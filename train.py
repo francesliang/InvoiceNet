@@ -38,6 +38,8 @@ def main():
                     help="restore from checkpoint")
     ap.add_argument("--data_dir", type=str, default='processed_data/',
                     help="path to directory containing prepared data")
+    ap.add_argument("--model_dir", type=str, default='',
+                    help="path to directory containing model files")
     ap.add_argument("--steps", type=int, default=50000,
                     help="maximum number of training steps")
     ap.add_argument("--early_stop_steps", type=int, default=0,
@@ -55,7 +57,7 @@ def main():
 
     print("Training...")
     trainer.train(
-        model=AttendCopyParse(field=args.field, restore=args.restore),
+        model=AttendCopyParse(field=args.field, restore=args.restore, model_dir=args.model_dir),
         train_data=train_data,
         val_data=val_data,
         total_steps=args.steps,
