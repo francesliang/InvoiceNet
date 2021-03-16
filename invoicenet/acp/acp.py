@@ -39,7 +39,7 @@ class AttendCopyParse(Model):
             self.model_dir = './models'
         else:
             self.model_dir = model_dir
-        self.restore_all_path = os.path.join(self.mode_dir, 'invoicenet/{}/best'.format(self.field) if restore else None
+        self.restore_all_path = os.path.join(self.mode_dir, 'invoicenet/{}/best'.format(self.field)) if restore else None
         os.makedirs(os.path.join(self.model_dir, "invoicenet"), exist_ok=True)
 
 
